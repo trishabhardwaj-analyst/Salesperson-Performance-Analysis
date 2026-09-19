@@ -1,0 +1,49 @@
+-- Create these measures in Power BI after importing powerbi_superstore_data.csv
+
+Total Sales = SUM('powerbi_superstore_data'[Sales])
+
+Total Profit = SUM('powerbi_superstore_data'[Profit])
+
+Profit Margin % = DIVIDE([Total Profit], [Total Sales], 0)
+
+Total Orders = DISTINCTCOUNT('powerbi_superstore_data'[Order ID])
+
+Average Order Value = DIVIDE([Total Sales], [Total Orders], 0)
+
+Total Quantity = SUM('powerbi_superstore_data'[Quantity])
+
+Average Discount % = AVERAGE('powerbi_superstore_data'[Discount])
+
+Loss Making Lines =
+CALCULATE(
+    COUNTROWS('powerbi_superstore_data'),
+    'powerbi_superstore_data'[Profit] < 0
+)
+
+Sales 2016 =
+CALCULATE(
+    [Total Sales],
+    'powerbi_superstore_data'[Order Year] = 2016
+)
+
+Sales 2017 =
+CALCULATE(
+    [Total Sales],
+    'powerbi_superstore_data'[Order Year] = 2017
+)
+
+Sales Growth 2017 vs 2016 % =
+DIVIDE([Sales 2017] - [Sales 2016], [Sales 2016], 0)
+
+Profit per Order =
+DIVIDE([Total Profit], [Total Orders], 0)
+
+-- Recommended dashboard visuals:
+-- 1. KPI cards: Total Sales, Total Profit, Profit Margin %, Total Orders, AOV
+-- 2. Clustered bar: Sales and Profit by Salesperson
+-- 3. Column chart: Salesperson Performance Score
+-- 4. Line chart: Sales by Order Year-Month
+-- 5. Bar chart: Profit by Sub-Category
+-- 6. Bar chart: Sales by Territory/Region
+-- 7. Scatter: Sales vs Profit by Salesperson, bubble size = Orders
+-- 8. Slicers: Year, Region, Category, Segment, Salesperson
